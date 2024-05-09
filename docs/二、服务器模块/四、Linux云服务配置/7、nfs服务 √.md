@@ -11,11 +11,13 @@ sidebar_position: 7
 3、定义Kerberos领域名以及它们与DNS域名之间的映射关系，Kerberos是nfs服务里用于认证的协议<br />vi /etc/krb5.conf
 修改以下位置[libdefaults] #这段定义全局默认参数<br />    default_realm = SKILLS.LAN  #默认的Kerberos领域名
 
-[realms] #定义具体的Kerberos 领域配置
+```
+#定义具体的Kerberos 领域配置
 SKILLS.LAN = {
     kdc = linux2.skills.lan  #指定 KDC 的地址或域名
     admin_server = linux2.skills.lan  #指定管理员服务器的地址或域名
 }
+```
 
 [domain_realm] #定义域名到领域的映射<br />.skills.lan = SKILLS.LAN #.skills.lan 域名映射到 SKILLS.LAN 领域<br />skills.lan = SKILLS.LAN #将 skills.lan 域名映射到 SKILLS.LAN 领域
 

@@ -1,4 +1,4 @@
----
+<!-- v--- -->
 sidebar_position: 8
 ---
 
@@ -14,7 +14,14 @@ sidebar_position: 8
 5、确保 chrony 时间服务同步正常    vi /etc/chonryd.config #编辑chrony服务配置文件<br />systemctl restart chronyd #重启时间服务<br />date #查看当前时间<br />6、证书和证书私钥发送至Linux5
 # 1小题
 ## 第一步：安装kubernetes--所有节点
-1、解压并安装所有rpm包    <br />tar -xf  kubernetes.tar<br />cd /kubernetes/packages<br />rpm -Uvh --force --nodeps *.rpm或者yum install *.rpm<br />使用yum可以把其他依赖包一并安装，前提是yum本地源要正常<br />source <(kubectl completion bash)  #配置kubernetes tab补全
+1、解压并安装所有rpm包
+```
+tar -xf  kubernetes.tar
+cd /kubernetes/packages
+rpm -Uvh --force --nodeps *.rpm或者yum install *.rpm
+#使用yum可以把其他依赖包一并安装，前提是yum本地源要正常
+source <(kubectl completion bash)  #配置kubernetes tab补全
+```
 ## 第二步：调整内核参数--所有节点
 写入内容1:    为Kubernetes提供所需的底层支持cat <<EOF | tee /etc/modules-load.d/k.conf<br />overlay<br />br_netfilter<br />EOF<br />modprobe overlay #加载模块<br />modprobe br_netfilter #加载模块
 写入内容2：使网络可以正常处理和转发cat <<EOF | tee /etc/sysctl.d/k.conf<br />net.bridge.bridge-nf-call-iptables = 1<br />net.bridge.bridge-nf-call-ip6tables = 1<br />net.ipv4.ip_forward = 1<br />EOF<br />sysctl -p --system #重载内核参数

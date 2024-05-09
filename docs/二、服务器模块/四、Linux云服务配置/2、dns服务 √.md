@@ -110,8 +110,11 @@ openssl req -new -key skills.key -out skills.csr
 openssl ca -in skills.csr -out skills.crt -days 1825 -extfile file.ext
 ```
 ##### **阶段三、配置信任**
-for i in {1..9};do scp skills.* cacert.pem 10.4.220.10$i:/etc/pki/tls/ ;done<br />cat cacert.pem >> /etc/pki/tls/certs/ca-bundle.crt   #每一台有证书的主机执行
-扩展key和crt 转为pfx<br />openssl pkcs12 -export -out skills.pfx -inkey skills.key -in skills.crt 
+```
+for i in {1..9};do scp skills.* cacert.pem 10.4.220.10$i:/etc/pki/tls/ ;done
+cat cacert.pem >> /etc/pki/tls/certs/ca-bundle.crt   #每一台有证书的主机执行
+#扩展key和crt 转为pfx
+openssl pkcs12 -export -out skills.pfx -inkey skills.key -in skills.crt 
 
 pfx转为pem<br />openssl pkcs12 -in skills.pfx -nodes -out skills.pem
 
@@ -119,3 +122,4 @@ pfx转为pem<br />openssl pkcs12 -in skills.pfx -nodes -out skills.pem
 
 转jks<br />yum install javapackages-tools.noarch -y<br />keytool -importkeystore -srckeystore skills.pfx -destkeystore skills.jks -deststoretype JKS
 
+```
