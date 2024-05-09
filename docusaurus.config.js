@@ -47,7 +47,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Pluto',
+        title: 'NOTHING',
         logo: {
           alt: 'Pluto Logo',
           src: 'img/logo.png',
@@ -55,7 +55,7 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'Introduction',
+            docId: '开班',
             position: 'left',
             label: 'Documentation',
           },
@@ -65,7 +65,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://github.com/PlutoLang/Pluto',
+            href: 'https://github.com/INKCR0W/ser',
             label: 'GitHub',
             position: 'right',
           },
@@ -73,7 +73,7 @@ const config = {
       },
       footer: {
         style: 'dark',
-        copyright: `Copyright © ${new Date().getFullYear()} PlutoLang. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} NOTHING. Built with Docusaurus.`,
       },
       prism: {
         theme: codeTheme,
