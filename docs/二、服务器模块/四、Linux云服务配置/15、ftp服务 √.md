@@ -2,7 +2,11 @@
 sidebar_position: 15
 ---
 
-ftp服务<br />任务描述：请采用FTP服务器，实现文件安全传输。<br />（1）配置linux2为FTP服务器，安装vsftpd，新建本地用户test，本地用户登陆ftp后的目录为/var/ftp/pub，可以上传下载。<br />（2）配置ftp虚拟用户认证模式，虚拟用户ftp1和ftp2映射为ftp，ftp1登录ftp后的目录为/var/ftp/vdir/ftp1，可以上传下载,禁止上传后缀名为.docx的文件；ftp2登录ftp后的目录为/var/ftp/vdir/ftp2，仅有下载权限。<br />（3）使用ftp命令在本机验证。
+ftp服务
+任务描述：请采用FTP服务器，实现文件安全传输。
+（1）配置linux2为FTP服务器，安装vsftpd，新建本地用户test，本地用户登陆ftp后的目录为/var/ftp/pub，可以上传下载。
+（2）配置ftp虚拟用户认证模式，虚拟用户ftp1和ftp2映射为ftp，ftp1登录ftp后的目录为/var/ftp/vdir/ftp1，可以上传下载,禁止上传后缀名为.docx的文件；ftp2登录ftp后的目录为/var/ftp/vdir/ftp2，仅有下载权限。
+（3）使用ftp命令在本机验证。
 
 ## 1小题
 ### 1.安装vsftpd
@@ -21,7 +25,11 @@ chroot_list_file=/etc/vsftpd/chroot_list   #新增 只能访问家目录的用�
 chmod 777 /var/ftp/pub #赋予pub目录满权限
 ## 2小题
 ### 1.创建虚拟用户目录、赋权
-mkdir /var/ftp/vdir<br />mkdir /var/ftp/vdir/ftp1<br />mkdir /var/ftp/vdir/ftp2<br />chmod 777 /var/ftp/vdir/ftp1<br />chmod 777 /var/ftp/vdir/ftp2
+mkdir /var/ftp/vdir
+mkdir /var/ftp/vdir/ftp1
+mkdir /var/ftp/vdir/ftp2
+chmod 777 /var/ftp/vdir/ftp1
+chmod 777 /var/ftp/vdir/ftp2
 ### 2.配置虚拟用户
 cd /etc/vsftpd/
 ```
@@ -45,9 +53,12 @@ db_load -T -t hash -f vuser_list vuser.db #生成db数据库，使其能够快�
 auth       sufficient   pam_userdb.so db=/etc/vsftpd/vuser
 account    sufficient   pam_userdb.so db=/etc/vsftpd/vuser
 ```
-注意：这两行的位置是独立的，不要放到已存在的内容中，否则会提示530登录失败<br />![image.png](https://cdn.nlark.com/yuque/0/2024/png/33622884/1713595907227-e097fb53-c9b5-45d2-8542-cb0f1ba8bbfe.png#averageHue=%230b0605&clientId=u7fe7b5fc-a0b2-4&from=paste&height=287&id=u5df7ac58&originHeight=394&originWidth=1168&originalType=binary&ratio=1.375&rotation=0&showTitle=false&size=60315&status=done&style=none&taskId=u2ee62758-dc86-409d-ba81-0374450e21b&title=&width=849.4545454545455)
+注意：这两行的位置是独立的，不要放到已存在的内容中，否则会提示530登录失败
+![image.png](https://cdn.nlark.com/yuque/0/2024/png/33622884/1713595907227-e097fb53-c9b5-45d2-8542-cb0f1ba8bbfe.png#averageHue=%230b0605&clientId=u7fe7b5fc-a0b2-4&from=paste&height=287&id=u5df7ac58&originHeight=394&originWidth=1168&originalType=binary&ratio=1.375&rotation=0&showTitle=false&size=60315&status=done&style=none&taskId=u2ee62758-dc86-409d-ba81-0374450e21b&title=&width=849.4545454545455)
 ### 3.创建和配置虚拟用户权限文件
-mkdir /etc/vsftpd/vuser_conf<br />touch /etc/vsftpd/vuser_conf/ftp1<br />touch /etc/vsftpd/vuser_conf/ftp2
+mkdir /etc/vsftpd/vuser_conf
+touch /etc/vsftpd/vuser_conf/ftp1
+touch /etc/vsftpd/vuser_conf/ftp2
 ```
 write_enable=YES
 deny_file=*.docx #禁止上传.docx格式的文件
@@ -66,13 +77,27 @@ local_root=/var/ftp/vdir/ftp2 #匿名用户登录到的目录
 
 systemc enable vsftpd.service --now
 ## 3小题
-在本地test用户的登录目录上创建t.txt<br />在虚拟用户ftp1登录目录创建f1.txt<br />在虚拟用户ftp1登录目录创建f2.txt<br />在root目录创建 g.docx和g.txt
+在本地test用户的登录目录上创建t.txt
+在虚拟用户ftp1登录目录创建f1.txt
+在虚拟用户ftp1登录目录创建f2.txt
+在root目录创建 g.docx和g.txt
 
-使用Linux  测试ftp<br />cd /root/<br />ftp 10.4.120.102 #登录到ftp并输入用户名密码 <br />ftp> put g.txt g.txt  #上传当前目录的g.txt<br />ftp> get t.txt t.txt    #下载t.txt到当前目录<br />ftp> put g.docx g.docx    #下载g.txt到当前目录
+使用Linux  测试ftp
+cd /root/
+ftp 10.4.120.102 #登录到ftp并输入用户名密码 
+ftp> put g.txt g.txt  #上传当前目录的g.txt
+ftp> get t.txt t.txt    #下载t.txt到当前目录
+ftp> put g.docx g.docx    #下载g.txt到当前目录
 
 Bye        #断开
 
 
-实验问题总结：<br />1、无法上传文件（提示227和553）<br />修改setsebool -P ftpd_full_access 1 修改完成后会提示500和421<br />修改vsftpd.conf，在chroot处加入：allow_writeable_chroot=YES<br />重启就解决了
+实验问题总结：
+1、无法上传文件（提示227和553）
+修改setsebool -P ftpd_full_access 1 修改完成后会提示500和421
+修改vsftpd.conf，在chroot处加入：allow_writeable_chroot=YES
+重启就解决了
 
-2、限制上传.sh文件<br />虚拟用户的权限文件处加入以下内容<br />deny_file=*.sh
+2、限制上传.sh文件
+虚拟用户的权限文件处加入以下内容
+deny_file=*.sh
