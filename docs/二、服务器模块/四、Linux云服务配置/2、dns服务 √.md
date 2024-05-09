@@ -117,8 +117,10 @@ openssl ca -in skills.csr -out skills.crt -cert cacert.crt  -keyfile cacert.key 
 openssl pkcs12 -export -out cacert.pfx -inkey cacert.key -in cacert.crt 
 openssl pkcs12 -in cacert.pfx -nodes -out cacert.pem
 ##### 阶段四、配置信任
+```
 for i in {1..9};do scp skills.* cacert.pem 10.4.220.10$i:/etc/pki/tls/ ;done
 cat cacert.pem >> /etc/pki/tls/certs/ca-bundle.crt   #每一台有证书的主机执行
+```
 #### 方案二
 ##### 步骤一、根CA证书配置
 ```

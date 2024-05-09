@@ -25,13 +25,13 @@ yum install krb5-workstation*  #linux3 和 linux4 执行
 vi /etc/krb5.conf
 修改以下位置[libdefaults] #这段定义全局默认参数
     default_realm = SKILLS.LAN  #默认的Kerberos领域名
-
+```
 [realms] #定义具体的Kerberos 领域配置
 SKILLS.LAN = {
      kdc = linux2.skills.lan  #指定 KDC 的地址或域名
      admin_server = linux2.skills.lan  #指定管理员服务器的地址或域名
  }
-
+```
 [domain_realm] #定义域名到领域的映射
 .skills.lan = SKILLS.LAN #.skills.lan 域名映射到 SKILLS.LAN 领域
 skills.lan = SKILLS.LAN #将 skills.lan 域名映射到 SKILLS.LAN 领域
